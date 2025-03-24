@@ -37,7 +37,7 @@ export const create = async (req: Request, resp: Response) => {
 export const getAllUsers = async (req: Request, resp: Response) => {
   try {
     const users = await User.find().select("-password");
-    resp.status(200).json({ data: users });
+    resp.status(200).json(users);
   } catch (error) {
     resp.status(500).json({ message: "Server error" });
   }
@@ -62,8 +62,10 @@ export const login = async (req: Request, res: Response) => {
 
     // Find user
     const user = await User.findOne({ email_id });
+    console.log(user);
+    
     if (!user) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "User not found. Please register" });
     }
 
     // Check password
